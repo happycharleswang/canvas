@@ -6,27 +6,6 @@ class UpdateSettingsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * The user model.
-     *
-     * @var App\Models\User
-     */
-    private $user;
-
-    /**
-     * Create the user model test subject.
-     *
-     * @before
-     * @return void
-     */
-    public function createUser()
-    {
-        $this->user = factory(App\Models\User::class)->create([
-            'email'     => 'foo@bar.com',
-            'password'  => bcrypt('password'),
-        ]);
-    }
-
     protected $optionalFields = [
         'blog_description' => '<dt>Description</dt>',
         'blog_seo' => '<dt>Blog SEO</dt>',
@@ -40,36 +19,31 @@ class UpdateSettingsTest extends TestCase
         'blog_subtitle',
     ];
 
-    /** @test */
-    public function it_shows_error_messages_for_required_fields()
+    public function testItShowsErrorMessagesForRequiredFields()
     {
-        $this->actingAs($this->user)
+        $this->actingAs(factory(App\Models\User::class)->create())
             ->visit('/admin/settings');
 
-        // Fill in all of the required fields with an empty string
+        // fill in all require fields with an empty string
         foreach ($this->requiredFields as $name) {
             $this->type('', $name);
         }
 
         $this->press('Save');
 
-        // Assert the response contains an error message for each field
+        // assert response contains error message for each field
         foreach ($this->requiredFields as $name) {
             $this->see('The '.str_replace('_', ' ', $name).' field is required.');
         }
     }
 
-    /** @test */
-    public function it_can_update_the_settings()
+    public function testItSuccessfullyUpdatesSettings()
     {
-        $this->actingAs($this->user)
+        $this->actingAs(factory(App\Models\User::class)->create())
             ->visit('/admin/settings');
 
-        $this->type('New and Updated Title', 'blog_title')
-            ->press('Save');
-
+        $this->type('New and Updated Title', 'blog_title')->press('Save');
         $this->assertSessionMissing('errors');
-
         $this->seePageIs('admin/settings');
     }
 }

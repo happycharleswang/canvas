@@ -18,7 +18,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
-                                    <a href="{{ url('admin/tools') }}">Refresh Tools</a>
+                                    <a href="">Refresh Tools</a>
                                 </li>
                             </ul>
                         </li>
@@ -40,14 +40,17 @@
         @include('backend.partials.notify', ['section' => '_reset-index'])
         {{ \Session::forget('_reset-index') }}
     @endif
+
     @if(Session::get('_cache-clear'))
         @include('backend.partials.notify', ['section' => '_cache-clear'])
         {{ \Session::forget('_cache-clear') }}
     @endif
+
     @if(Session::get('_enable-maintenance-mode'))
         @include('backend.partials.notify', ['section' => '_enable-maintenance-mode'])
         {{ \Session::forget('_enable-maintenance-mode') }}
     @endif
+
     @if(Session::get('_disable-maintenance-mode'))
         @include('backend.partials.notify', ['section' => '_disable-maintenance-mode'])
         {{ \Session::forget('_disable-maintenance-mode') }}

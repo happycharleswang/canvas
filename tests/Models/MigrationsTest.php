@@ -2,6 +2,9 @@
 
 use EGALL\EloquentPHPUnit\EloquentTestCase;
 
+/**
+ * Migrations model test.
+ */
 class MigrationsTest extends EloquentTestCase
 {
     /**
@@ -18,17 +21,13 @@ class MigrationsTest extends EloquentTestCase
      */
     protected $seedDatabase = false;
 
-    /** @test */
-    public function it_has_the_correct_model_properties()
+    /**
+     * Test the model's properties.
+     *
+     * @return void
+     */
+    public function testModelProperties()
     {
         $this->hasFillable(['migration', 'batch']);
-    }
-
-    /** @test */
-    public function the_database_table_has_all_of_the_correct_columns()
-    {
-        $this->table->column('id')->integer()->increments();
-        $this->table->column('migration')->string();
-        $this->table->column('batch')->integer();
     }
 }

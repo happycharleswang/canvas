@@ -23,7 +23,7 @@ return [
     | identifier in your .env file.
     |
     */
-    'posts_per_page' => 6,
+    'posts_per_page' => 10,
 
     /*
     |--------------------------------------------------------------------------

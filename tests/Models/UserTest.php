@@ -21,8 +21,12 @@ class UserTest extends EloquentTestCase
      */
     protected $seedDatabase = false;
 
-    /** @test */
-    public function the_database_table_has_all_of_the_correct_columns()
+    /**
+     * Test the model's database table.
+     *
+     * @return void
+     */
+    public function testDatabaseTable()
     {
         $this->table->column('id')->integer()->increments()->index();
         $this->table->column('first_name')->string()->nullable();
@@ -49,8 +53,12 @@ class UserTest extends EloquentTestCase
         $this->table->hasTimestamps();
     }
 
-    /** @test */
-    public function it_has_the_correct_model_properties()
+    /**
+     * Test the model's properties.
+     *
+     * @return void
+     */
+    public function testModelProperties()
     {
         $this->hasFillable([
                 'first_name', 'last_name', 'display_name', 'url', 'twitter', 'facebook',

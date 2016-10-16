@@ -3,6 +3,11 @@
 use App\Models\Tag;
 use EGALL\EloquentPHPUnit\EloquentTestCase;
 
+/**
+ * Post model test.
+ *
+ * Test the application's post model.
+ */
 class PostTest extends EloquentTestCase
 {
     /**
@@ -30,8 +35,12 @@ class PostTest extends EloquentTestCase
         $this->user = factory(App\Models\User::class)->create();
     }
 
-    /** @test */
-    public function the_database_table_has_all_of_the_correct_columns()
+    /**
+     * Test the database table.
+     *
+     * @return void
+     */
+    public function testDatabaseTable()
     {
         $this->table->column('id')->integer()->increments();
         $this->table->column('title')->string()->notNullable();
@@ -45,8 +54,12 @@ class PostTest extends EloquentTestCase
         $this->table->hasTimestamps();
     }
 
-    /** @test */
-    public function the_post_tag_table_relationship()
+    /**
+     * Test the post-tag join table.
+     *
+     * @return void
+     */
+    public function testPostTagJoinTable()
     {
         $this->resetTable('post_tag');
         $this->table->column('tag_id')->integer()->primary();
@@ -54,23 +67,24 @@ class PostTest extends EloquentTestCase
         $this->table->hasTimestamps();
     }
 
-    /** @test */
-    public function it_has_the_correct_model_properties()
+    /**
+     * Test the model's properties & relationships.
+     *
+     * @return void
+     */
+    public function testModelProperties()
     {
         $this->hasFillable('title', 'subtitle', 'content_raw', 'page_image', 'meta_description', 'layout', 'is_draft', 'published_at', 'slug')
              ->hasDates('published_at')
              ->belongsToMany(Tag::class);
     }
 
-    /** @test */
-    public function it_validates_the_post_create_form()
-    {
-        $this->callRouteAsUser('admin.post.store', null, ['title' => 'example'])
-            ->assertSessionHasErrors();
-    }
-
-    /** @test */
-    public function it_can_create_a_post_and_save_it_to_the_database()
+    /**
+     * Test creating a new post.
+     *
+     * @return void
+     */
+    public function testItCreatesPost()
     {
         $data = [
             'title'         => 'example',
@@ -84,37 +98,59 @@ class PostTest extends EloquentTestCase
         $this->callRouteAsUser('admin.post.store', null, $data)
               ->seePostInDatabase(['title' => 'example', 'content_raw' => 'FooBar', 'content_html' => '<p>FooBar</p>'])
               ->seeInSession('_new-post', trans('messages.create_success', ['entity' => 'post']))
-              ->assertRedirectedTo('admin/post')
-              ->assertSessionMissing('errors');
+              ->assertRedirectedTo('admin/post');
     }
 
-    /** @test */
-    public function it_can_edit_posts()
+    /**
+     * Test creating a post that fails validation.
+     *
+     * @return void
+     */
+    public function testItValidatesPostCreation()
+    {
+        $this->callRouteAsUser('admin.post.store', null, ['title' => 'example'])
+             ->assertSessionHasErrors();
+    }
+
+    /**
+     * Test editing a post model.
+     *
+     * @return void
+     */
+    public function testPostsCanBeEdited()
     {
         $this->callRouteAsUser('admin.post.edit', 1)
-            ->submitForm('Update', ['title' => 'Foo'])
+            ->submitForm('Save', ['title' => 'Foo'])
             ->see('Success! Post has been updated')
             ->see('Foo')
             ->seePostInDatabase();
     }
 
-    /** @test */
-    public function it_can_preview_a_post()
+    /**
+     * Test previewing a post model.
+     *
+     * @return void
+     */
+    public function testPostsCanBePreviewed()
     {
         $this->callRouteAsUser('admin.post.edit', 1)
-             ->click('permalink')
-             ->seePageIs('blog/hello-world')
-             ->assertSessionMissing('errors');
+             ->click('Preview')
+             ->seePageIs('blog/hello-world');
     }
 
-    /** @test */
-    public function it_can_delete_a_post_from_the_database()
+    /**
+     * Test deleting a post model from the database.
+     *
+     * @return void
+     */
+    public function testPostsCanBeDeleted()
     {
         $this->callRouteAsUser('admin.post.edit', 1)
-             ->press('Delete Post')
-             ->see($this->getDeleteMessage())
-             ->dontSeePostInDatabase(1)
-             ->assertSessionMissing('errors');
+            ->press('Delete')
+            ->dontSee($this->getDeleteMessage())
+            ->press('Delete Post')
+            ->see($this->getDeleteMessage())
+            ->dontSeePostInDatabase(1);
     }
 
     /**

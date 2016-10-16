@@ -41,7 +41,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 | Create the Welcome post in the database.
 |
 */
-$factory->define(App\Models\Post::class, function () {
+$factory->define(App\Models\Post::class, function ($faker) {
     return [
     'title' => 'Hello World',
     'slug' => 'hello-world',
@@ -62,7 +62,7 @@ $factory->define(App\Models\Post::class, function () {
 | Create tags for the Welcome post in the database.
 |
 */
-$factory->define(App\Models\Tag::class, function () {
+$factory->define(App\Models\Tag::class, function ($faker) {
     return [
     'tag' => 'Getting Started',
     'title' => 'Getting Started',

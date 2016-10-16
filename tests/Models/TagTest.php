@@ -3,6 +3,11 @@
 use App\Models\Post;
 use EGALL\EloquentPHPUnit\EloquentTestCase;
 
+/**
+ * Tag model test.
+ *
+ * Test the application's tag CRUD.
+ */
 class TagTest extends EloquentTestCase
 {
     /**
@@ -20,18 +25,11 @@ class TagTest extends EloquentTestCase
     private $user;
 
     /**
-     * Create the user model test subject.
+     * Test the database table.
      *
-     * @before
      * @return void
      */
-    public function createUser()
-    {
-        $this->user = factory(App\Models\User::class)->create();
-    }
-
-    /** @test */
-    public function the_database_table_has_all_of_the_correct_columns()
+    public function testDatabaseTable()
     {
         $this->table->column('id')->integer()->increments();
         $this->table->column('tag')->string()->unique();
@@ -43,23 +41,35 @@ class TagTest extends EloquentTestCase
         $this->table->hasTimestamps();
     }
 
-    /** @test */
-    public function it_has_the_correct_model_properties()
+    /**
+     * Test the tag model's properties.
+     *
+     * @return void
+     */
+    public function testModelProperties()
     {
         $this->belongsToMany(Post::class)
-            ->hasCasts(['reverse_direction' => 'boolean'])
-            ->hasFillable('tag', 'title', 'subtitle', 'meta_description', 'reverse_direction', 'created_at', 'updated_at');
+             ->hasCasts(['reverse_direction' => 'boolean'])
+             ->hasFillable('tag', 'title', 'subtitle', 'meta_description', 'reverse_direction', 'created_at', 'updated_at');
     }
 
-    /** @test */
-    public function it_validates_the_tag_create_form()
+    /**
+     * Create the user model test subject.
+     *
+     * @before
+     * @return void
+     */
+    public function createUser()
     {
-        $this->actingAs($this->user)->post('admin/tag', ['title' => 'example']);
-        $this->assertSessionHasErrors();
+        $this->user = factory(App\Models\User::class)->create();
     }
 
-    /** @test */
-    public function it_can_create_a_tag_and_save_it_to_the_database()
+    /**
+     * Test creating a tag.
+     *
+     * @return void
+     */
+    public function testItCreatesTag()
     {
         $this->actingAs($this->user)->post('admin/tag', [
             'tag'               => 'example',
@@ -83,8 +93,13 @@ class TagTest extends EloquentTestCase
         $this->assertRedirectedTo('admin/tag');
     }
 
-    /** @test */
-    public function it_can_edit_tags()
+    public function testItValidatesTagCreation()
+    {
+        $this->actingAs($this->user)->post('admin/tag', ['title' => 'example']);
+        $this->assertSessionHasErrors();
+    }
+
+    public function testTagsCanBeEdited()
     {
         $this->actingAs($this->user)
             ->visit(route('admin.tag.edit', 1))
@@ -95,8 +110,7 @@ class TagTest extends EloquentTestCase
             ->seeInDatabase('tags', ['title' => 'Foo']);
     }
 
-    /** @test */
-    public function it_can_delete_a_tag_from_the_database()
+    public function testTagsCanBeDeleted()
     {
         $this->actingAs($this->user)
             ->visit(route('admin.tag.edit', 1))

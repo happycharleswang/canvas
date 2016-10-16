@@ -2,6 +2,9 @@
 
 use EGALL\EloquentPHPUnit\EloquentTestCase;
 
+/**
+ * Migrations model test.
+ */
 class PasswordResetsTest extends EloquentTestCase
 {
     /**
@@ -18,16 +21,12 @@ class PasswordResetsTest extends EloquentTestCase
      */
     protected $seedDatabase = false;
 
-    /** @test */
-    public function the_database_table_has_all_of_the_correct_columns()
-    {
-        $this->table->column('email')->string()->index();
-        $this->table->column('token')->string()->index();
-        $this->table->column('created_at')->dateTime()->nullable();
-    }
-
-    /** @test */
-    public function it_has_the_correct_model_properties()
+    /**
+     * Test the model's properties.
+     *
+     * @return void
+     */
+    public function testModelProperties()
     {
         $this->hasFillable(['email', 'token', 'created_at']);
     }

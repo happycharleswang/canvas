@@ -6,7 +6,9 @@
 
 @section('content')
     <section id="main">
+
         @include('backend.partials.sidebar-navigation')
+
         <section id="content">
             <div class="container">
                 <div class="card">
@@ -16,8 +18,23 @@
                             <li><a href="{{ url('admin/tag') }}">Tags</a></li>
                             <li class="active">Edit Tag</li>
                         </ol>
+                        <ul class="actions">
+                            <li class="dropdown">
+                                <a href="" data-toggle="dropdown">
+                                    <i class="zmdi zmdi-more-vert"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a href="">Refresh Tag</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
                         @include('shared.errors')
+
                         @include('shared.success')
+
                         <h2>
                             Edit <em>{{ $data['title'] }}</em>
                             <small>
@@ -52,11 +69,13 @@
             </div>
         </section>
     </section>
+
     @include('backend.tag.partials.modals.delete')
 @stop
 
 @section('unique-js')
     {!! JsValidator::formRequest('App\Http\Requests\TagUpdateRequest', '#tagUpdate'); !!}
+
     @if(Session::get('_update-tag'))
         @include('backend.partials.notify', ['section' => '_update-tag'])
         {{ \Session::forget('_update-tag') }}

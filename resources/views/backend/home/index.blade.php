@@ -9,6 +9,21 @@
         @include('backend.partials.sidebar-navigation')
         <section id="content">
             <div class="container">
+                <div class="block-header">
+                    <h2>Dashboard</h2>
+                    <ul class="actions">
+                        <li class="dropdown">
+                            <a href="" data-toggle="dropdown">
+                                <i class="zmdi zmdi-more-vert"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li>
+                                    <a href="">Refresh Dashboard</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
                 @include('backend.home.sections.welcome')
                 <div class="row">
                     <div class="col-sm-6 col-md-6">
@@ -36,6 +51,9 @@
         @include('backend.partials.notify', ['section' => '_login'])
         {{ \Session::forget('_login') }}
     @endif
+
     @include('backend.shared.components.slugify')
+
     {!! JsValidator::formRequest('App\Http\Requests\PostCreateRequest', '#postCreate') !!}
+
 @stop

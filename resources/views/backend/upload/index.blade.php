@@ -20,9 +20,10 @@
                                 <a href="" data-toggle="dropdown">
                                     <i class="zmdi zmdi-more-vert"></i>
                                 </a>
+
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
-                                        <a href="{{ url('admin/upload') }}">Refresh Media</a>
+                                        <a href="">Refresh Media Library</a>
                                     </li>
                                 </ul>
                             </li>
@@ -40,6 +41,7 @@
 @stop
 
 @section('unique-js')
+
     <script>
         new Vue({
             el: 'body',

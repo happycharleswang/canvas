@@ -19,4 +19,4 @@ Follow the [7 step installation process](https://github.com/austintoddj/canvas#i
 After you've completed the installation, you can re-import your data and uploads from the archive you downloaded from [step 1](https://github.com/austintoddj/canvas/blob/master/UPGRADE.md#step-1-download-your-data).
 The fastest way to accomplish this is to use a database manager like [Sequel Pro](http://sequelpro.com) and import each file manually.
 > Because of the construction of the database, you may receive an error when trying to import the `post_tag` file. This is because the `posts`
-and `tags` tables need to be imported first. Once those imports are complete, you can safely import the `post_tag` file.
+and `tags` tables need to be imported first. Once those imports are run, you can safely import the `post_tag` file.

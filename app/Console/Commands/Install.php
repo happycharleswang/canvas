@@ -56,8 +56,6 @@ class Install extends Command
             $this->line(PHP_EOL.'<info>✔</info> Success! Your database is set up and configured.');
         }
 
-        $this->comment(PHP_EOL.'Please provide the following information. Don\'t worry, you can always change these settings later.');
-
         // Admin User
         $this->comment(PHP_EOL.'Step 1/6: Creating the admin user');
         $email = $this->ask('Admin email address');

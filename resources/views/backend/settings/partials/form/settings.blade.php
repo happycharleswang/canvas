@@ -87,6 +87,6 @@
     <br>
 
     <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-icon-text"><i class="zmdi zmdi-floppy"></i> Save Changes</button>
+        <button type="submit" class="btn btn-primary btn-icon-text"><i class="zmdi zmdi-floppy"></i> Save</button>
     </div>
 </form>
